@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
@@ -13,28 +13,37 @@ import jwt_decode from "jwt-decode";
 import {logoutUser, setCurrentUser} from "./actions/authentication";
 import Navigation from "./components/Navigation";
 
+import 'foundation-sites';
+
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
   store.dispatch(setCurrentUser(decoded));
 
   const currentTime = Date.now() / 1000;
-  if(decoded.exp < currentTime) {
+  if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     window.location.href = '/login'
   }
 }
 
-ReactDOM.render((
-  <Provider store = { store }>
-    <Router>
-      <div>
-        <Navigation/>
-        <Route exact path="/" component={ Home } />
-        <Route exact path="/login" component={ Login } />
-        <Route exact path="/register" component={ Register } />
-        <Route exact path="/capture" component={ CaptureLoad } />
-      </div>
-    </Router>
-  </Provider>
-), document.getElementById('root'));
+class App extends Component {
+  render() {
+    return(
+        <Provider store = { store }>
+          <Router>
+            <div>
+              <Navigation/>
+              <Route exact path="/" component={ Home } />
+              <Route exact path="/login" component={ Login } />
+              <Route exact path="/register" component={ Register } />
+              <Route exact path="/capture" component={ CaptureLoad } />
+            </div>
+          </Router>
+        </Provider>
+    )
+  }
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById("root"));
+

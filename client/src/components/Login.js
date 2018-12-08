@@ -50,8 +50,8 @@ class Login extends Component {
     const { errors } = this.state;
 
     return(
-        <div className="container" style={{ marginTop: '50px', width: '700px'}}>
-          <h2 style={{marginBottom: '40px'}}>Login</h2>
+        <div className="login-container">
+          <h2>Login</h2>
           <form onSubmit={ this.handleSubmit }>
             <div className="form-group">
               <input
